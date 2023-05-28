@@ -50,9 +50,21 @@ compose_cli diff dataseries --base-type compose http://skipper.localhost:8000 ./
 
 You can create a new bot by chatting with `@BotFather` on Telegram. BotFather will guide you through the creation process.
 
-## Setup flows in Node-RED
+## Setup Node-RED Project
+
+### Manual
 
 Access Node-RED at `http://skipper.localhost:8000/api/flow/system/engine/access/`, create a new project and import the flow from `https://github.com/s4ke/telegram-personal-assistant/blob/main/flows.json`
+
+Install the following nodes:
+
+![grafik](https://github.com/s4ke/telegram-personal-assistant/assets/719760/c312e267-5f97-44f9-b8fb-ea950c59d428)
+
+### Clone this repo in the UI
+
+Alternatively, you can also clone this repository via the Node-RED git integration.
+
+## Configure Node-RED Flows
 
 Then, configure the telegram config. You can access it in the config section:
 
