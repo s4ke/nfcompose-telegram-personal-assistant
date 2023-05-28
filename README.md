@@ -56,7 +56,7 @@ You can create a new bot by chatting with `@BotFather` on Telegram. BotFather wi
 
 Install the following nodes:
 
-![grafik](https://github.com/s4ke/nfcompose-telegram-personal-assistant/assets/719760/c312e267-5f97-44f9-b8fb-ea950c59d428)
+![grafik](https://github.com/s4ke/nfcompose-telegram-personal-assistant/assets/719760/9fb0bfdf-8348-423c-ae51-fd85e981ca51)
 
 Access Node-RED at `http://skipper.localhost:8000/api/flow/system/engine/access/`, create a new project and import the flow from `https://github.com/s4ke/nfcompose-telegram-personal-assistant/blob/main/flows.json`
 
