@@ -68,11 +68,11 @@ Alternatively, you can also clone this repository via the Node-RED git integrati
 
 Then, configure the telegram config. You can access it in the config section:
 
-![grafik](https://github.com/s4ke/nfcompose-telegram-personal-assistant/assets/719760/da136752-3882-4f86-9aa6-6fde56828b8c)
+![grafik](https://github.com/s4ke/nfcompose-telegram-personal-assistant/assets/719760/c83cdb24-ff75-43f4-94d2-b28a2b366f7a)
 
 Double click on `Personal Assistant`. This will open the configuration for the telegram bot node:
 
-![grafik](https://github.com/s4ke/nfcompose-telegram-personal-assistant/assets/719760/9cb2255d-eaf7-4d61-b680-bbdf0afa2e2c)
+![grafik](https://github.com/s4ke/nfcompose-telegram-personal-assistant/assets/719760/2ed4e6fc-cb77-4183-b6da-5adff8a1fb8d)
 
 Enter the token you got from BotFather on Telegram and press `Update`.
 
