@@ -80,7 +80,7 @@ Enter the token you got from BotFather on Telegram and press `Update`.
 
 Open a chat with your bot and send a message with `/chatId` to get the chat id:
 
-![grafik](https://github.com/s4ke/nfcompose-telegram-personal-assistant/assets/719760/0ff0a074-6c3f-4c30-8826-87a493770b2f)
+![grafik](https://github.com/s4ke/nfcompose-telegram-personal-assistant/assets/719760/14879c3f-ceb2-467d-a1da-83ced6b439dd)
 
 Using this chat id, we can run the following:
 
