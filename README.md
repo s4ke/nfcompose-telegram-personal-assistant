@@ -3,7 +3,7 @@ nfcompose-telegram-personal-assistant
 
 A Telegram Personal Assistant built with NF Compose + Node-RED.
 
-![grafik](https://github.com/s4ke/nfcompose-telegram-personal-assistant/assets/719760/b6489430-8bac-4d36-ab41-19e7ddd34dc4)
+![grafik](https://github.com/s4ke/nfcompose-telegram-personal-assistant/assets/719760/c86e0f1b-ffa9-4898-9f74-48ad2c1223eb)
 
 Features:
 
@@ -101,9 +101,9 @@ EOF
 
 Finally, we have to only tell the Telegram bot about our calendar we want it to remind us of. To do so, we simply send it a single `.ics` file:
 
-![grafik](https://github.com/s4ke/nfcompose-telegram-personal-assistant/assets/719760/be46b3dd-138d-4d9d-8e5f-bd4111d24948)
+![grafik](https://github.com/s4ke/nfcompose-telegram-personal-assistant/assets/719760/c9be0da4-dc58-4643-a465-ecec15758eb5)
 
 The bot will now start reminding you of the events in the `.ics` file.
 
-![grafik](https://github.com/s4ke/nfcompose-telegram-personal-assistant/assets/719760/02385762-5c98-474e-a403-7b578d812f67)
+![grafik](https://github.com/s4ke/nfcompose-telegram-personal-assistant/assets/719760/9dc5b0ba-3c89-4d82-88e2-b241a4c01502)
 
