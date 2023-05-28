@@ -1,9 +1,9 @@
-telegram-personal-assistant
+nfcompose-telegram-personal-assistant
 ===========================
 
 A Telegram Personal Assistant built with NF Compose + Node-RED.
 
-![grafik](https://github.com/s4ke/telegram-personal-assistant/assets/719760/b6489430-8bac-4d36-ab41-19e7ddd34dc4)
+![grafik](https://github.com/s4ke/nfcompose-telegram-personal-assistant/assets/719760/b6489430-8bac-4d36-ab41-19e7ddd34dc4)
 
 Features:
 
@@ -42,7 +42,7 @@ You should now be able to visit the NF Compose instance at http://skipper.localh
 Next, we have to prepare the NF Compose dataseries we need for the assistant:
 
 ```bash
-curl -L https://raw.githubusercontent.com/s4ke/telegram-personal-assistant/main/dataseries.json
+curl -L https://raw.githubusercontent.com/s4ke/nfcompose-telegram-personal-assistant/main/dataseries.json
 compose_cli diff dataseries --base-type compose http://skipper.localhost:8000 ./dataseries.json --base-compose-user admin --base-compose-password admin | compose_cli apply dataseries-diff http://skipper.localhost:8000 --compose-user admin --compose-password admin
 ```
 
@@ -56,9 +56,9 @@ You can create a new bot by chatting with `@BotFather` on Telegram. BotFather wi
 
 Install the following nodes:
 
-![grafik](https://github.com/s4ke/telegram-personal-assistant/assets/719760/c312e267-5f97-44f9-b8fb-ea950c59d428)
+![grafik](https://github.com/s4ke/nfcompose-telegram-personal-assistant/assets/719760/c312e267-5f97-44f9-b8fb-ea950c59d428)
 
-Access Node-RED at `http://skipper.localhost:8000/api/flow/system/engine/access/`, create a new project and import the flow from `https://github.com/s4ke/telegram-personal-assistant/blob/main/flows.json`
+Access Node-RED at `http://skipper.localhost:8000/api/flow/system/engine/access/`, create a new project and import the flow from `https://github.com/s4ke/nfcompose-telegram-personal-assistant/blob/main/flows.json`
 
 ### Clone this repo in the UI
 
@@ -68,11 +68,11 @@ Alternatively, you can also clone this repository via the Node-RED git integrati
 
 Then, configure the telegram config. You can access it in the config section:
 
-![grafik](https://github.com/s4ke/telegram-personal-assistant/assets/719760/da136752-3882-4f86-9aa6-6fde56828b8c)
+![grafik](https://github.com/s4ke/nfcompose-telegram-personal-assistant/assets/719760/da136752-3882-4f86-9aa6-6fde56828b8c)
 
 Double click on `Personal Assistant`. This will open the configuration for the telegram bot node:
 
-![grafik](https://github.com/s4ke/telegram-personal-assistant/assets/719760/9cb2255d-eaf7-4d61-b680-bbdf0afa2e2c)
+![grafik](https://github.com/s4ke/nfcompose-telegram-personal-assistant/assets/719760/9cb2255d-eaf7-4d61-b680-bbdf0afa2e2c)
 
 Enter the token you got from BotFather on Telegram and press `Update`.
 
@@ -80,7 +80,7 @@ Enter the token you got from BotFather on Telegram and press `Update`.
 
 Open a chat with your bot and send a message with `/chatId` to get the chat id:
 
-![grafik](https://github.com/s4ke/telegram-personal-assistant/assets/719760/0ff0a074-6c3f-4c30-8826-87a493770b2f)
+![grafik](https://github.com/s4ke/nfcompose-telegram-personal-assistant/assets/719760/0ff0a074-6c3f-4c30-8826-87a493770b2f)
 
 Using this chat id, we can run the following:
 
@@ -101,9 +101,9 @@ EOF
 
 Finally, we have to only tell the Telegram bot about our calendar we want it to remind us of. To do so, we simply send it a single `.ics` file:
 
-![grafik](https://github.com/s4ke/telegram-personal-assistant/assets/719760/be46b3dd-138d-4d9d-8e5f-bd4111d24948)
+![grafik](https://github.com/s4ke/nfcompose-telegram-personal-assistant/assets/719760/be46b3dd-138d-4d9d-8e5f-bd4111d24948)
 
 The bot will now start reminding you of the events in the `.ics` file.
 
-![grafik](https://github.com/s4ke/telegram-personal-assistant/assets/719760/02385762-5c98-474e-a403-7b578d812f67)
+![grafik](https://github.com/s4ke/nfcompose-telegram-personal-assistant/assets/719760/02385762-5c98-474e-a403-7b578d812f67)
 
