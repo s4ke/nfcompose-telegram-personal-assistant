@@ -54,11 +54,11 @@ You can create a new bot by chatting with `@BotFather` on Telegram. BotFather wi
 
 ### Manual
 
-Access Node-RED at `http://skipper.localhost:8000/api/flow/system/engine/access/`, create a new project and import the flow from `https://github.com/s4ke/telegram-personal-assistant/blob/main/flows.json`
-
 Install the following nodes:
 
 ![grafik](https://github.com/s4ke/telegram-personal-assistant/assets/719760/c312e267-5f97-44f9-b8fb-ea950c59d428)
+
+Access Node-RED at `http://skipper.localhost:8000/api/flow/system/engine/access/`, create a new project and import the flow from `https://github.com/s4ke/telegram-personal-assistant/blob/main/flows.json`
 
 ### Clone this repo in the UI
 
