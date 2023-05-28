@@ -89,7 +89,7 @@ EOF
 
 Finally, we have to only tell the Telegram bot about our calendar we want it to remind us of. To do so, we simply send it a single `.ics` file:
 
-![grafik](https://github.com/s4ke/telegram-personal-assistant/assets/719760/9f8cf571-9c89-44d0-94b4-8a8359f67761)
+![grafik](https://github.com/s4ke/telegram-personal-assistant/assets/719760/be46b3dd-138d-4d9d-8e5f-bd4111d24948)
 
 The bot will now start reminding you of the events in the `.ics` file.
 
