@@ -548,7 +548,7 @@
         "y": 100,
         "wires": [
             [
-                "39159a587e8fc1a4"
+                "d071639bee8d7e25"
             ],
             []
         ]
@@ -570,11 +570,11 @@
                 "type": "str"
             }
         ],
-        "x": 1450,
+        "x": 1570,
         "y": 260,
         "wires": [
             [
-                "32020ebfc97f0eb7"
+                "3f04b797549b5e45"
             ]
         ]
     },
@@ -594,7 +594,7 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 1140,
+        "x": 1260,
         "y": 200,
         "wires": [
             [
@@ -613,7 +613,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1390,
+        "x": 1510,
         "y": 200,
         "wires": [
             [
@@ -638,7 +638,7 @@
         "checkall": "true",
         "repair": false,
         "outputs": 1,
-        "x": 610,
+        "x": 730,
         "y": 100,
         "wires": [
             [
@@ -664,7 +664,7 @@
         "checkall": "true",
         "repair": false,
         "outputs": 1,
-        "x": 780,
+        "x": 900,
         "y": 100,
         "wires": [
             [
@@ -691,7 +691,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 880,
+        "x": 1000,
         "y": 200,
         "wires": [
             [
@@ -718,29 +718,13 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 700,
+        "x": 820,
         "y": 160,
         "wires": [
             [
                 "a92f6e60a1eabf7a"
             ]
         ]
-    },
-    {
-        "id": "32020ebfc97f0eb7",
-        "type": "debug",
-        "z": "7173da1a4fadafab",
-        "name": "debug 6",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1540,
-        "y": 320,
-        "wires": []
     },
     {
         "id": "21861db646b5c2eb",
@@ -811,11 +795,71 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 370,
+        "x": 510,
         "y": 100,
         "wires": [
             [
                 "a99f2b00b5579562"
+            ]
+        ]
+    },
+    {
+        "id": "d071639bee8d7e25",
+        "type": "change",
+        "z": "7173da1a4fadafab",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "chatId",
+                "pt": "msg",
+                "to": "payload.chatId",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 280,
+        "y": 200,
+        "wires": [
+            [
+                "39159a587e8fc1a4"
+            ]
+        ]
+    },
+    {
+        "id": "b2f9ef83e00718ee",
+        "type": "telegram sender",
+        "z": "7173da1a4fadafab",
+        "name": "",
+        "bot": "fe8dd53049448260",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1580,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3f04b797549b5e45",
+        "type": "function",
+        "z": "7173da1a4fadafab",
+        "name": "get chat Id",
+        "func": "msg.payload = {\n    chatId: msg.chatId,\n    type: \"message\",\n    content: \"Successfully changed .ics contents\"\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1380,
+        "y": 400,
+        "wires": [
+            [
+                "b2f9ef83e00718ee"
             ]
         ]
     },
