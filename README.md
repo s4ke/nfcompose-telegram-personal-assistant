@@ -3,7 +3,7 @@ telegram-personal-assistant
 
 A Telegram Personal Assistant built with NF Compose + Node-RED.
 
-![grafik](https://github.com/s4ke/telegram-personal-assistant/assets/719760/ed6acfc8-d9c0-4ac5-a3e6-ed1e9ba72d49)
+![grafik](https://github.com/s4ke/telegram-personal-assistant/assets/719760/b6489430-8bac-4d36-ab41-19e7ddd34dc4)
 
 Features:
 
@@ -93,5 +93,5 @@ Finally, we have to only tell the Telegram bot about our calendar we want it to 
 
 The bot will now start reminding you of the events in the `.ics` file.
 
-![grafik](https://github.com/s4ke/telegram-personal-assistant/assets/719760/ed6acfc8-d9c0-4ac5-a3e6-ed1e9ba72d49)
+![grafik](https://github.com/s4ke/telegram-personal-assistant/assets/719760/02385762-5c98-474e-a403-7b578d812f67)
 
