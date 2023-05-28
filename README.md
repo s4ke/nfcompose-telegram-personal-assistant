@@ -1,7 +1,7 @@
 nfcompose-telegram-personal-assistant
 ===========================
 
-A Telegram Personal Assistant built with NF Compose + Node-RED.
+A Telegram Personal Assistant built with [NF Compose](https://github.com/neuroforgede/nfcompose) + [Node-RED](https://github.com/node-red/node-red).
 
 ![grafik](https://github.com/s4ke/nfcompose-telegram-personal-assistant/assets/719760/c86e0f1b-ffa9-4898-9f74-48ad2c1223eb)
 
