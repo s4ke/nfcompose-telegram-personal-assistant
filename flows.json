@@ -1,0 +1,1487 @@
+[
+    {
+        "id": "f6f2187d.f17ca8",
+        "type": "tab",
+        "label": "Send Messages to Telegram",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "c7a6c7a4b92f5bff",
+        "type": "tab",
+        "label": "Refresh NF Compose Token",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "7173da1a4fadafab",
+        "type": "tab",
+        "label": "Handle Changes in ics uploads",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "bf5e045486a764e6",
+        "type": "tab",
+        "label": "Check for calendar events",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "83ce5bd8130ace05",
+        "type": "subflow",
+        "name": "nf compose request",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 60,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "fade6fcc71d0003b"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 880,
+                "y": 100,
+                "wires": [
+                    {
+                        "id": "3586799d5d05dc24",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "nfcomposeTokenName",
+                "type": "str",
+                "value": "default"
+            },
+            {
+                "name": "nfcomposeUrl",
+                "type": "str",
+                "value": ""
+            },
+            {
+                "name": "nfcomposeMethod",
+                "type": "str",
+                "value": "GET"
+            }
+        ],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "fe8dd53049448260",
+        "type": "telegram bot",
+        "botname": "Personal Assistant",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "updatemode": "polling",
+        "pollinterval": "300",
+        "usesocks": false,
+        "sockshost": "",
+        "socksprotocol": "socks5",
+        "socksport": "6667",
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbotport": "8443",
+        "publicbotport": "8443",
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "f8a81d3f7cad0ceb",
+        "type": "ical-config",
+        "url": "http://localhost:1880/ics/",
+        "caldav": "",
+        "caltype": "ical",
+        "name": "",
+        "replacedates": false,
+        "usecache": false,
+        "username": "",
+        "password": "",
+        "calendar": "",
+        "pastWeeks": "0",
+        "futureWeeks": "4"
+    },
+    {
+        "id": "fade6fcc71d0003b",
+        "type": "function",
+        "z": "83ce5bd8130ace05",
+        "name": "get auth headers",
+        "func": "msg.oldHeaders = msg.headers;\nmsg.headers = {\n    ...msg.nfcomposeHeaders,\n    'Authorization': `Token ${global.get('nfcompose-token-' + env.get('nfcomposeTokenName'))}`\n}\nmsg.oldUrl = msg.url;\nmsg.url = env.get('nfcomposeUrl') || msg.nfcomposeUrl;\nmsg.method = env.get('nfcomposeMethod') || 'GET';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 220,
+        "y": 80,
+        "wires": [
+            [
+                "8ab67abba7811c0a"
+            ]
+        ]
+    },
+    {
+        "id": "8600088953f8f11c",
+        "type": "catch",
+        "z": "83ce5bd8130ace05",
+        "name": "",
+        "scope": [
+            "fade6fcc71d0003b",
+            "8ab67abba7811c0a",
+            "3586799d5d05dc24"
+        ],
+        "uncaught": false,
+        "x": 370,
+        "y": 220,
+        "wires": [
+            [
+                "4d6d3f8bfb62fe2f"
+            ]
+        ]
+    },
+    {
+        "id": "4d6d3f8bfb62fe2f",
+        "type": "function",
+        "z": "83ce5bd8130ace05",
+        "name": "function 1",
+        "func": "msg.headers = msg.oldHeaders;\ndelete msg.oldHeaders;\nmsg.url = msg.oldUrl;\ndelete msg.oldUrl;\nthrow msg.error;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8ab67abba7811c0a",
+        "type": "http request",
+        "z": "83ce5bd8130ace05",
+        "name": "request to nf compose",
+        "method": "use",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 460,
+        "y": 80,
+        "wires": [
+            [
+                "3586799d5d05dc24"
+            ]
+        ]
+    },
+    {
+        "id": "3586799d5d05dc24",
+        "type": "function",
+        "z": "83ce5bd8130ace05",
+        "name": "postprocess response",
+        "func": "return msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d4dd8f43c2cfb628",
+        "type": "http in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "url": "/consumer/birthday_events",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 170,
+        "y": 400,
+        "wires": [
+            [
+                "c7d7815a1446ac8e"
+            ]
+        ]
+    },
+    {
+        "id": "ff3bb049ef0440d1",
+        "type": "http response",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 880,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "c7d7815a1446ac8e",
+        "type": "switch",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "property": "payload.event_type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "DATA_POINT_CHANGED",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 410,
+        "y": 400,
+        "wires": [
+            [
+                "1940bf4bbb9cb21a"
+            ],
+            [
+                "ff3bb049ef0440d1"
+            ]
+        ]
+    },
+    {
+        "id": "2b06ea55c825f82b",
+        "type": "http response",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 1060,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "323b8e889bebf0b6",
+        "type": "subflow:83ce5bd8130ace05",
+        "z": "f6f2187d.f17ca8",
+        "name": "fetch",
+        "x": 790,
+        "y": 520,
+        "wires": [
+            [
+                "5d34880c7a8ce2de"
+            ]
+        ]
+    },
+    {
+        "id": "1940bf4bbb9cb21a",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "fetch datapoint",
+        "func": "msg.nfcomposeUrl = `http://skipper.internal.local:8000/api/dataseries/by-external-id/dataseries/birthday_events/datapoint/${msg.payload.payload.data_points[0].external_id}`;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 520,
+        "wires": [
+            [
+                "323b8e889bebf0b6"
+            ]
+        ]
+    },
+    {
+        "id": "050c25a8cb24f2bb",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "debug 8",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 940,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "e2f6c7349cbeed91",
+        "type": "telegram sender",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "bot": "fe8dd53049448260",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 860,
+        "y": 620,
+        "wires": [
+            [
+                "2b06ea55c825f82b",
+                "050c25a8cb24f2bb"
+            ]
+        ]
+    },
+    {
+        "id": "5d34880c7a8ce2de",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "setup telegram message",
+        "func": "const type = msg.payload.payload.type;\nconst chat_id = msg.payload.payload.chat_id;\nconst eventData = msg.payload.payload.event_data;\nmsg.payload = {\n    \"chatId\": chat_id,\n    \"content\": `Type: ${type}\nDate: ${eventData.eventStart}\nSummary: ${eventData.summary}\n    `,\n    \"type\": \"message\"\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 620,
+        "wires": [
+            [
+                "e2f6c7349cbeed91"
+            ]
+        ]
+    },
+    {
+        "id": "019fa01caf2b5286",
+        "type": "inject",
+        "z": "c7a6c7a4b92f5bff",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "300",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.0",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 190,
+        "y": 200,
+        "wires": [
+            [
+                "ced01e341416098d"
+            ]
+        ]
+    },
+    {
+        "id": "ced01e341416098d",
+        "type": "function",
+        "z": "c7a6c7a4b92f5bff",
+        "name": "get auth",
+        "func": "let theProcess;\ntry {\n    theProcess = process;\n} catch {\n    theProcess = {};\n}\nconst username = theProcess.NF_COMPOSE_USERNAME || 'admin';\nconst password = theProcess.NF_COMPOSE_PASSWORD || 'admin';\nmsg.payload = {\n    username: username,\n    password: password\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 200,
+        "wires": [
+            [
+                "8ae563197d554084"
+            ]
+        ]
+    },
+    {
+        "id": "8ae563197d554084",
+        "type": "http request",
+        "z": "c7a6c7a4b92f5bff",
+        "name": "",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://skipper.internal.local:8000/api/common/auth/authtoken/",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 590,
+        "y": 200,
+        "wires": [
+            [
+                "6e028e8e7a559cf0"
+            ]
+        ]
+    },
+    {
+        "id": "6e028e8e7a559cf0",
+        "type": "function",
+        "z": "c7a6c7a4b92f5bff",
+        "name": "set nf compose user token",
+        "func": "global.set('nfcompose-token-default', msg.payload.token);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5cdf88e380642c1d",
+        "type": "function",
+        "z": "c7a6c7a4b92f5bff",
+        "name": "fetch datapoint",
+        "func": "msg.nfcomposeUrl = `http://skipper.internal.local:8000/api/dataseries/by-external-id/dataseries/config/datapoint/config`;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 360,
+        "wires": [
+            [
+                "28c3a1a1bf80943d"
+            ]
+        ]
+    },
+    {
+        "id": "28c3a1a1bf80943d",
+        "type": "subflow:83ce5bd8130ace05",
+        "z": "c7a6c7a4b92f5bff",
+        "name": "fetch",
+        "x": 870,
+        "y": 360,
+        "wires": [
+            [
+                "dc5f3250276d11f9"
+            ]
+        ]
+    },
+    {
+        "id": "dc5f3250276d11f9",
+        "type": "function",
+        "z": "c7a6c7a4b92f5bff",
+        "name": "set chat id",
+        "func": "global.set('chatId', msg.payload.payload.chat_id);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1060,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5d68522108199479",
+        "type": "inject",
+        "z": "c7a6c7a4b92f5bff",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "10",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.0",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 310,
+        "y": 360,
+        "wires": [
+            [
+                "5cdf88e380642c1d"
+            ]
+        ]
+    },
+    {
+        "id": "e3131601e6442fd4",
+        "type": "telegram receiver",
+        "z": "7173da1a4fadafab",
+        "name": "",
+        "bot": "fe8dd53049448260",
+        "saveDataDir": "",
+        "filterCommands": false,
+        "x": 150,
+        "y": 100,
+        "wires": [
+            [
+                "39159a587e8fc1a4"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "db43d54366b85a80",
+        "type": "subflow:83ce5bd8130ace05",
+        "z": "7173da1a4fadafab",
+        "name": "",
+        "env": [
+            {
+                "name": "nfcomposeUrl",
+                "value": "http://skipper.internal.local:8000/api/dataseries/by-external-id/dataseries/birthdays/bulk/datapoint/",
+                "type": "str"
+            },
+            {
+                "name": "nfcomposeMethod",
+                "value": "POST",
+                "type": "str"
+            }
+        ],
+        "x": 1450,
+        "y": 260,
+        "wires": [
+            [
+                "32020ebfc97f0eb7"
+            ]
+        ]
+    },
+    {
+        "id": "1ccfdb060b1d7313",
+        "type": "http request",
+        "z": "7173da1a4fadafab",
+        "name": "download ics file",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1140,
+        "y": 200,
+        "wires": [
+            [
+                "477efc6b1bf5f073"
+            ]
+        ]
+    },
+    {
+        "id": "477efc6b1bf5f073",
+        "type": "function",
+        "z": "7173da1a4fadafab",
+        "name": "prepare write to dataseries",
+        "func": "const icsContent = msg.payload;\nmsg.payload = {\n    \"batch\": [\n        {\n            \"external_id\": \"chat-\" + msg.telegramData.chatId,\n            \"payload\": {\n                \"ics\": icsContent\n            }\n        }\n    ]\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1390,
+        "y": 200,
+        "wires": [
+            [
+                "db43d54366b85a80"
+            ]
+        ]
+    },
+    {
+        "id": "a99f2b00b5579562",
+        "type": "switch",
+        "z": "7173da1a4fadafab",
+        "name": "if is document",
+        "property": "payload.type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "document",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 610,
+        "y": 100,
+        "wires": [
+            [
+                "3d3db2447bb84c40"
+            ]
+        ]
+    },
+    {
+        "id": "3d3db2447bb84c40",
+        "type": "switch",
+        "z": "7173da1a4fadafab",
+        "name": "is ics file",
+        "property": "payload.weblink",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "regex",
+                "v": ".*\\.ics$",
+                "vt": "str",
+                "case": false
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 780,
+        "y": 100,
+        "wires": [
+            [
+                "f2b170e7e4bcdd3b"
+            ]
+        ]
+    },
+    {
+        "id": "a92f6e60a1eabf7a",
+        "type": "change",
+        "z": "7173da1a4fadafab",
+        "name": "set msg.url to download link of ics file",
+        "rules": [
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "payload.weblink",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 880,
+        "y": 200,
+        "wires": [
+            [
+                "1ccfdb060b1d7313"
+            ]
+        ]
+    },
+    {
+        "id": "f2b170e7e4bcdd3b",
+        "type": "change",
+        "z": "7173da1a4fadafab",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "telegramData",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 700,
+        "y": 160,
+        "wires": [
+            [
+                "a92f6e60a1eabf7a"
+            ]
+        ]
+    },
+    {
+        "id": "32020ebfc97f0eb7",
+        "type": "debug",
+        "z": "7173da1a4fadafab",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1540,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "21861db646b5c2eb",
+        "type": "telegram command",
+        "z": "7173da1a4fadafab",
+        "name": "",
+        "command": "/chatId",
+        "description": "",
+        "registercommand": false,
+        "language": "",
+        "scope": "default",
+        "bot": "fe8dd53049448260",
+        "strict": false,
+        "hasresponse": true,
+        "useregex": false,
+        "removeregexcommand": false,
+        "outputs": 2,
+        "x": 110,
+        "y": 360,
+        "wires": [
+            [
+                "e7690b4c81246c84"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "c078b7dfc6fba3a4",
+        "type": "telegram sender",
+        "z": "7173da1a4fadafab",
+        "name": "",
+        "bot": "fe8dd53049448260",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 580,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e7690b4c81246c84",
+        "type": "function",
+        "z": "7173da1a4fadafab",
+        "name": "get chat Id",
+        "func": "msg.payload = {\n    chatId: msg.payload.chatId,\n    type: \"message\",\n    content: \"Chat Id: \" + msg.payload.chatId\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 360,
+        "wires": [
+            [
+                "c078b7dfc6fba3a4"
+            ]
+        ]
+    },
+    {
+        "id": "39159a587e8fc1a4",
+        "type": "function",
+        "z": "7173da1a4fadafab",
+        "name": "check if chat id is correct",
+        "func": "if(msg.payload.chatId == global.get('chatId')) {\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 100,
+        "wires": [
+            [
+                "a99f2b00b5579562"
+            ]
+        ]
+    },
+    {
+        "id": "b78e629cef0254fc",
+        "type": "http in",
+        "z": "bf5e045486a764e6",
+        "name": "",
+        "url": "/ics/",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 200,
+        "wires": [
+            [
+                "c5e58e545a2340c2"
+            ]
+        ]
+    },
+    {
+        "id": "c6d5d0f421c57f87",
+        "type": "http response",
+        "z": "bf5e045486a764e6",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1050,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "9c32cf8e8667af9f",
+        "type": "subflow:83ce5bd8130ace05",
+        "z": "bf5e045486a764e6",
+        "name": "",
+        "x": 710,
+        "y": 200,
+        "wires": [
+            [
+                "cc368b67edc75c1a"
+            ]
+        ]
+    },
+    {
+        "id": "cc368b67edc75c1a",
+        "type": "change",
+        "z": "bf5e045486a764e6",
+        "name": "extract ics",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.payload.ics",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 900,
+        "y": 200,
+        "wires": [
+            [
+                "c6d5d0f421c57f87"
+            ]
+        ]
+    },
+    {
+        "id": "e556fafd2c5e619b",
+        "type": "ical-upcoming",
+        "z": "bf5e045486a764e6",
+        "confignode": "f8a81d3f7cad0ceb",
+        "timeout": "10",
+        "timeoutUnits": "seconds",
+        "cron": "",
+        "name": "",
+        "offsettype": "",
+        "offset": "",
+        "offsetUnitstype": "",
+        "offsetUnits": "",
+        "eventtypes": "events",
+        "eventtypestype": "str",
+        "calendar": "",
+        "calendartype": "str",
+        "triggertype": "trigger",
+        "trigger": "always",
+        "timezone": "",
+        "timezonetype": "str",
+        "dateformat": "{ \"timeStyle\": \"short\", \"dateStyle\": \"short\" }",
+        "dateformattype": "json",
+        "language": "en",
+        "languagetype": "language",
+        "filterProperty": "summary",
+        "filterPropertytype": "filterProperty",
+        "filterOperator": "between",
+        "filterOperatortype": "filterOperator",
+        "filtertype": "str",
+        "filter2type": "str",
+        "filter2": "",
+        "filter": "",
+        "checkall": false,
+        "endpreview": "",
+        "endpreviewUnits": "",
+        "previewtype": "num",
+        "preview": "",
+        "previewUnitstype": "previewUnits",
+        "previewUnits": "days",
+        "pastviewtype": "num",
+        "pastview": "",
+        "pastviewUnits": "days",
+        "pastviewUnitstype": "pastviewUnits",
+        "x": 160,
+        "y": 320,
+        "wires": [
+            [
+                "ed5501052a0438ec"
+            ]
+        ]
+    },
+    {
+        "id": "837babe84220704c",
+        "type": "subflow:83ce5bd8130ace05",
+        "z": "bf5e045486a764e6",
+        "name": "check-external-ids",
+        "env": [
+            {
+                "name": "nfcomposeUrl",
+                "value": "http://skipper.internal.local:8000/api/dataseries/by-external-id/dataseries/birthday_events/bulk/check-external-ids/",
+                "type": "str"
+            },
+            {
+                "name": "nfcomposeMethod",
+                "value": "POST",
+                "type": "str"
+            }
+        ],
+        "x": 970,
+        "y": 620,
+        "wires": [
+            [
+                "f1db236564cd5b62"
+            ]
+        ]
+    },
+    {
+        "id": "18bb96df5a0bb25f",
+        "type": "change",
+        "z": "bf5e045486a764e6",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "event",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 760,
+        "y": 460,
+        "wires": [
+            [
+                "03f622f70ac41dae"
+            ]
+        ]
+    },
+    {
+        "id": "972dbc74a098893f",
+        "type": "object-hash",
+        "z": "bf5e045486a764e6",
+        "name": "",
+        "x": 550,
+        "y": 540,
+        "wires": [
+            [
+                "e8841c05b91dcec5"
+            ]
+        ]
+    },
+    {
+        "id": "7b373538e9e5b101",
+        "type": "split",
+        "z": "bf5e045486a764e6",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 730,
+        "y": 380,
+        "wires": [
+            [
+                "18bb96df5a0bb25f"
+            ]
+        ]
+    },
+    {
+        "id": "a41e8b9d78212819",
+        "type": "join",
+        "z": "bf5e045486a764e6",
+        "name": "",
+        "mode": "auto",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": "false",
+        "timeout": "",
+        "count": "",
+        "reduceRight": false,
+        "x": 970,
+        "y": 540,
+        "wires": [
+            [
+                "10682bb9353f1b6a"
+            ]
+        ]
+    },
+    {
+        "id": "e8841c05b91dcec5",
+        "type": "function",
+        "z": "bf5e045486a764e6",
+        "name": "create nf compose payload",
+        "func": "msg.payload = {\n    \"external_id\": msg.payload,\n    \"payload\": {\n        \"event_data\": msg.event,\n        \"type\": msg.eventType,\n        \"chat_id\": global.get('chatId')\n    }\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 540,
+        "wires": [
+            [
+                "a41e8b9d78212819"
+            ]
+        ]
+    },
+    {
+        "id": "10682bb9353f1b6a",
+        "type": "change",
+        "z": "bf5e045486a764e6",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "eventPayloads",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "event",
+                "pt": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1160,
+        "y": 540,
+        "wires": [
+            [
+                "7689c047b3bf3824"
+            ]
+        ]
+    },
+    {
+        "id": "7689c047b3bf3824",
+        "type": "function",
+        "z": "bf5e045486a764e6",
+        "name": "prepare check-external-ids-request",
+        "func": "msg.payload = {\n    \"external_ids\": msg.payload.map(elem => elem.external_id)\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 620,
+        "wires": [
+            [
+                "837babe84220704c"
+            ]
+        ]
+    },
+    {
+        "id": "d2bef7dc2aa8c886",
+        "type": "function",
+        "z": "bf5e045486a764e6",
+        "name": "prepare write to dataseries",
+        "func": "const elements = [];\nfor(const elem of msg.eventPayloads) {\n    if(!msg.knownIds.includes(elem.external_id)) {\n        elements.push(elem);\n    }\n}\nmsg.payload = elements;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 740,
+        "wires": [
+            [
+                "b30cdf7602d923f3"
+            ]
+        ]
+    },
+    {
+        "id": "f1db236564cd5b62",
+        "type": "change",
+        "z": "bf5e045486a764e6",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "knownIds",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 690,
+        "y": 680,
+        "wires": [
+            [
+                "d2bef7dc2aa8c886"
+            ]
+        ]
+    },
+    {
+        "id": "b68e072ca771f847",
+        "type": "subflow:83ce5bd8130ace05",
+        "z": "bf5e045486a764e6",
+        "name": "write to birthday_events",
+        "env": [
+            {
+                "name": "nfcomposeUrl",
+                "value": "http://skipper.internal.local:8000/api/dataseries/by-external-id/dataseries/birthday_events/bulk/datapoint/",
+                "type": "str"
+            },
+            {
+                "name": "nfcomposeMethod",
+                "value": "POST",
+                "type": "str"
+            }
+        ],
+        "x": 1240,
+        "y": 680,
+        "wires": [
+            [
+                "2435990f1c8b3a73"
+            ]
+        ]
+    },
+    {
+        "id": "03f622f70ac41dae",
+        "type": "function",
+        "z": "bf5e045486a764e6",
+        "name": "set object hash parameters",
+        "func": "msg.payload = {\n    \"date\": msg.payload.date,\n    \"eventStart\": msg.payload.eventStart,\n    \"eventEnd\": msg.payload.eventEnd,\n    \"summary\": msg.payload.summary,\n    \"originalEvent\": msg.payload.originalEvent,\n    \"eventType\": msg.eventType,\n    \"chatId\": global.get('chatId')\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 990,
+        "y": 460,
+        "wires": [
+            [
+                "972dbc74a098893f"
+            ]
+        ]
+    },
+    {
+        "id": "2435990f1c8b3a73",
+        "type": "debug",
+        "z": "bf5e045486a764e6",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1460,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "b30cdf7602d923f3",
+        "type": "split",
+        "z": "bf5e045486a764e6",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 890,
+        "y": 800,
+        "wires": [
+            [
+                "098ba89c87c9031e"
+            ]
+        ]
+    },
+    {
+        "id": "098ba89c87c9031e",
+        "type": "function",
+        "z": "bf5e045486a764e6",
+        "name": "set single batch for upsert",
+        "func": "msg.payload = {\n    \"batch\": [msg.payload]\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1110,
+        "y": 780,
+        "wires": [
+            [
+                "b68e072ca771f847"
+            ]
+        ]
+    },
+    {
+        "id": "ed5501052a0438ec",
+        "type": "change",
+        "z": "bf5e045486a764e6",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "eventType",
+                "pt": "msg",
+                "to": "upcoming",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 430,
+        "y": 320,
+        "wires": [
+            [
+                "7b373538e9e5b101"
+            ]
+        ]
+    },
+    {
+        "id": "f1cc68dc1301f485",
+        "type": "ical-events",
+        "z": "bf5e045486a764e6",
+        "confignode": "f8a81d3f7cad0ceb",
+        "timeout": "10",
+        "timeoutUnits": "seconds",
+        "cron": "",
+        "name": "",
+        "offsettype": "num",
+        "offset": "",
+        "offsetUnitstype": "offsetUnits",
+        "offsetUnits": "seconds",
+        "eventtypes": "events",
+        "eventtypestype": "eventtypes",
+        "calendar": "",
+        "calendartype": "str",
+        "triggertype": "trigger",
+        "trigger": "always",
+        "timezone": "",
+        "timezonetype": "str",
+        "dateformat": "{ \"timeStyle\": \"short\", \"dateStyle\": \"short\" }",
+        "dateformattype": "json",
+        "language": "en",
+        "languagetype": "language",
+        "filterProperty": "summary",
+        "filterPropertytype": "filterProperty",
+        "filterOperator": "between",
+        "filterOperatortype": "filterOperator",
+        "filtertype": "str",
+        "filter2type": "str",
+        "filter2": "",
+        "filter": "",
+        "x": 150,
+        "y": 380,
+        "wires": [
+            [
+                "651f940e8d389330"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "651f940e8d389330",
+        "type": "change",
+        "z": "bf5e045486a764e6",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "eventType",
+                "pt": "msg",
+                "to": "trigger",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 450,
+        "y": 380,
+        "wires": [
+            [
+                "7b373538e9e5b101"
+            ]
+        ]
+    },
+    {
+        "id": "f7ce58fa00ec8b2f",
+        "type": "ical-sensor",
+        "z": "bf5e045486a764e6",
+        "confignode": "f8a81d3f7cad0ceb",
+        "timeout": "10",
+        "timeoutUnits": "seconds",
+        "cron": "",
+        "name": "",
+        "offset": "",
+        "offsetUnits": "",
+        "eventtypes": "events",
+        "trigger": "always",
+        "timezone": "",
+        "filterProperty": "summary",
+        "filterOperator": "between",
+        "filter2": "",
+        "filter": "",
+        "combineResponse": false,
+        "x": 150,
+        "y": 460,
+        "wires": [
+            [
+                "6399f5a968318160"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "295de1433db885d5",
+        "type": "change",
+        "z": "bf5e045486a764e6",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "eventType",
+                "pt": "msg",
+                "to": "sensor",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 450,
+        "y": 460,
+        "wires": [
+            [
+                "7b373538e9e5b101"
+            ]
+        ]
+    },
+    {
+        "id": "e4c99ea7810f5a9f",
+        "type": "function",
+        "z": "bf5e045486a764e6",
+        "name": "set msg.payload",
+        "func": "msg.payload = [msg.payload];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 560,
+        "wires": [
+            [
+                "295de1433db885d5"
+            ]
+        ]
+    },
+    {
+        "id": "6399f5a968318160",
+        "type": "switch",
+        "z": "bf5e045486a764e6",
+        "name": "",
+        "property": "on",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 190,
+        "y": 560,
+        "wires": [
+            [
+                "e4c99ea7810f5a9f"
+            ]
+        ]
+    },
+    {
+        "id": "c5e58e545a2340c2",
+        "type": "function",
+        "z": "bf5e045486a764e6",
+        "name": "fetch data for chat id",
+        "func": "msg.nfcomposeUrl = `http://skipper.internal.local:8000/api/dataseries/by-external-id/dataseries/birthdays/datapoint/chat-${global.get('chatId')}`;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 200,
+        "wires": [
+            [
+                "9c32cf8e8667af9f"
+            ]
+        ]
+    },
+    {
+        "id": "7b68c11e9b9532b7",
+        "type": "comment",
+        "z": "bf5e045486a764e6",
+        "name": "customize the ical call logic via this internal endpoint",
+        "info": "",
+        "x": 260,
+        "y": 160,
+        "wires": []
+    }
+]

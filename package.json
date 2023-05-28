@@ -1,0 +1,16 @@
+{
+    "name": "telegram-personal-assistant",
+    "description": "A Node-RED Project",
+    "version": "0.0.1",
+    "dependencies": {
+        "node-red-contrib-ical-events": "2.2.2",
+        "node-red-contrib-object-hash": "0.0.1",
+        "node-red-contrib-telegrambot": "15.1.1"
+    },
+    "node-red": {
+        "settings": {
+            "flowFile": "flows.json",
+            "credentialsFile": "flows_cred.json"
+        }
+    }
+}

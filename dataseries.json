@@ -1,0 +1,121 @@
+[
+    {
+        "data_series": {
+            "external_id": "birthday_events",
+            "name": "birthday_events",
+            "backend": "DYNAMIC_SQL_MATERIALIZED_FLAT_HISTORY",
+            "extra_config": {
+                "auto_clean_history_after_days": -1,
+                "auto_clean_meta_model_after_days": -1
+            },
+            "allow_extra_fields": false
+        },
+        "structure": {
+            "float_facts": [
+                {
+                    "external_id": "chat_id",
+                    "name": "chat_id",
+                    "optional": false
+                }
+            ],
+            "string_facts": [],
+            "text_facts": [
+                {
+                    "external_id": "type",
+                    "name": "type",
+                    "optional": false
+                }
+            ],
+            "timestamp_facts": [],
+            "image_facts": [],
+            "file_facts": [],
+            "json_facts": [
+                {
+                    "external_id": "event_data",
+                    "name": "event_data",
+                    "optional": false
+                }
+            ],
+            "boolean_facts": [],
+            "dimensions": []
+        },
+        "consumers": [
+            {
+                "external_id": "nodered_birthday_events",
+                "target": "http://nodered.local:1880/consumer/birthday_events",
+                "name": "nodered_birthday_events",
+                "headers": {},
+                "timeout": 60.0,
+                "retry_backoff_every": 1,
+                "retry_backoff_delay": "00:00:10",
+                "retry_max": 0
+            }
+        ],
+        "indexes": [],
+        "group_permissions": []
+    },
+    {
+        "data_series": {
+            "external_id": "birthdays",
+            "name": "birthdays",
+            "backend": "DYNAMIC_SQL_MATERIALIZED_FLAT_HISTORY",
+            "extra_config": {
+                "auto_clean_history_after_days": -1,
+                "auto_clean_meta_model_after_days": -1
+            },
+            "allow_extra_fields": false
+        },
+        "structure": {
+            "float_facts": [],
+            "string_facts": [],
+            "text_facts": [
+                {
+                    "external_id": "ics",
+                    "name": "ics",
+                    "optional": false
+                }
+            ],
+            "timestamp_facts": [],
+            "image_facts": [],
+            "file_facts": [],
+            "json_facts": [],
+            "boolean_facts": [],
+            "dimensions": []
+        },
+        "consumers": [],
+        "indexes": [],
+        "group_permissions": []
+    },
+    {
+        "data_series": {
+            "external_id": "config",
+            "name": "config",
+            "backend": "DYNAMIC_SQL_MATERIALIZED_FLAT_HISTORY",
+            "extra_config": {
+                "auto_clean_history_after_days": -1,
+                "auto_clean_meta_model_after_days": -1
+            },
+            "allow_extra_fields": false
+        },
+        "structure": {
+            "float_facts": [
+                {
+                    "external_id": "chat_id",
+                    "name": "chat_id",
+                    "optional": false
+                }
+            ],
+            "string_facts": [],
+            "text_facts": [],
+            "timestamp_facts": [],
+            "image_facts": [],
+            "file_facts": [],
+            "json_facts": [],
+            "boolean_facts": [],
+            "dimensions": []
+        },
+        "consumers": [],
+        "indexes": [],
+        "group_permissions": []
+    }
+]
