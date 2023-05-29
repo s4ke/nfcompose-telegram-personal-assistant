@@ -82,7 +82,7 @@ Open a chat with your bot and send a message with `/chatId` to get the chat id:
 
 ![grafik](https://github.com/s4ke/nfcompose-telegram-personal-assistant/assets/719760/14879c3f-ceb2-467d-a1da-83ced6b439dd)
 
-Using this chat id, we can run the following:
+Using this chat id, we can run the following to configure the chat id in the telegram bot:
 
 ```bash
 # replace with your chat id
